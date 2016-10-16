@@ -10,7 +10,7 @@ public class HeroPieces : MonoBehaviour {
         {
             return;
         }
-        float piece_length = 1f / size;
+        float piece_length = 1f / size + (Random.value - 0.5f) * 2 * 0.06f;
         for (int i = 0; i < size; ++i)
         for (int j = 0; j < size; ++j)
         for (int k = 0; k < size; ++k)

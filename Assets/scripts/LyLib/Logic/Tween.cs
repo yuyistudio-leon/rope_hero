@@ -116,6 +116,10 @@ public class Tween : MonoBehaviour
         {
             on_complete += fn;
         }
+        protected void Loop(LoopType param_loop_type)
+        {
+            loop_type = param_loop_type;
+        }
         protected void Loop()
         {
             loop_type = LoopType.loop;
@@ -245,6 +249,11 @@ public class Tween : MonoBehaviour
         public new Float Loop()
         {
             base.Loop();
+            return this;
+        }
+        public new Float Loop(LoopType param_loop_type)
+        {
+            loop_type = param_loop_type;
             return this;
         }
         public new Float PingPong()

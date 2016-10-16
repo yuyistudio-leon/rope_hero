@@ -3,15 +3,10 @@ using System.Collections;
 
 public class DATA : MonoBehaviour 
 {
-    public static int LEVEL_COUNT = 18;
+    public static int LEVEL_COUNT = 14;
     public static int PAGE_LEVEL_COUNT = 6;
     public static int GetFirstUnfinishedLevel()
     {
-        PlayerPrefs.DeleteKey("level12.time");
-        PlayerPrefs.DeleteKey("level13.time");
-        PlayerPrefs.SetFloat("level12.time", 1000);
-
-
         for (int i = 0; i < LEVEL_COUNT; ++i)
         {
             var key = "level" + (i + 1).ToString() + ".time";
@@ -39,7 +34,9 @@ public class DATA : MonoBehaviour
     }
     public static void RecordLevelFinished(float seconds)
     {
-        var key = "level" + Application.loadedLevelName + ".time";
+        int level = LoadLevel.level;
+        print("record level : " + level);
+        var key = "level" + level + ".time";
         if (PlayerPrefs.HasKey(key))
         {
             var last_time = PlayerPrefs.GetFloat(key);

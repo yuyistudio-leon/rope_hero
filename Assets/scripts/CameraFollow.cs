@@ -16,7 +16,7 @@ public class CameraFollow : MonoBehaviour
         if (target)
         {
             var offset = pos_offset;
-            offset.x = offset.x * (Mathf.Abs(hero_controller.GetSpeed()) * 0.02f + 1f);
+            offset.x = offset.x * (Mathf.Abs(hero_controller.GetSpeed()) * 0.04f + 0.5f);
             Vector3 aim_pos = target.transform.position + offset;
             transform.position = Vector3.Lerp(transform.position, aim_pos, Time.deltaTime * follow_speed_factor);
         }

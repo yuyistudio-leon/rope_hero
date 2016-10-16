@@ -6,11 +6,6 @@ public class SetLevelTip : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        GetComponent<Text>().text = "Level  " + Application.loadedLevelName;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+        GetComponent<Text>().text = "Level  " + LoadLevel.level;
 	}
 }

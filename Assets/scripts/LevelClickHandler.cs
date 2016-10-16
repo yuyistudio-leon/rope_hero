@@ -8,6 +8,7 @@ public class LevelClickHandler : MonoBehaviour, IPointerClickHandler {
     public void OnPointerClick(PointerEventData eventData)
     {
         SoundManager.instance.PlayButtonClickSound();
-        Scene_LoadAsync.LoadWithTransition(level_index.ToString(), "Loading level " + level_index + " ...");
+        LoadLevel.level = level_index;
+        Scene_LoadAsync.LoadWithTransition("Level", "Loading level " + level_index + " ...");
     }
 }

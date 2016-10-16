@@ -4,13 +4,20 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using UnityStandardAssets.ImageEffects;
 
-
+class CONST
+{
+    public static string BLOOM_IMAGE_EFFECT_KEY = "__bloom_image_effect__";
+}
 public class MainmenuHandler : MonoBehaviour {
+    public static Color global_light_color;
+    public static  float global_light_strength = -1;
 
     public static int page_no = 0;
     public GameObject level_selector;
     public GameObject main_menu_panel;
+    public GameObject contact_info_panel;
     public Sprite finished_sprite, default_sprite;
     public Transform camera_transform;
     public Transform first_camera_transform;
@@ -79,6 +86,31 @@ public class MainmenuHandler : MonoBehaviour {
         {
             SoundManager.instance.FlipSoundState();
         }
+        else if (btn == "main_bloom")
+        {
+            bool enabled = false;
+            if (PlayerPrefs.HasKey(CONST.BLOOM_IMAGE_EFFECT_KEY))
+            {
+                enabled = PlayerPrefs.GetInt(CONST.BLOOM_IMAGE_EFFECT_KEY) == 1;
+                enabled = !enabled;
+            }
+            else
+            {
+                enabled = true;
+            }
+            Camera.main.GetComponent<BloomOptimized>().enabled = enabled;
+            PlayerPrefs.SetInt(CONST.BLOOM_IMAGE_EFFECT_KEY, enabled ? 1 : 0);
+        }
+        else if (btn == "main_contact")
+        {
+            contact_info_panel.SetActive(true);
+            main_menu_panel.SetActive(false);
+        }
+        else if (btn == "contact_back")
+        {
+            contact_info_panel.SetActive(false);
+            main_menu_panel.SetActive(true);
+        }
         else if (btn == "main_exit")
         {
             Application.Quit();
@@ -115,10 +147,31 @@ public class MainmenuHandler : MonoBehaviour {
             Debug.Log(btn);
         }
     }
+    void Awake()
+    {
+        if (global_light_strength < 0)
+        {
+            global_light_strength = RenderSettings.ambientIntensity;
+            global_light_color = RenderSettings.ambientLight;
+        }
+        else
+        {
+            RenderSettings.ambientIntensity = global_light_strength;
+            RenderSettings.ambientLight = global_light_color;
+        }
+        // apply settings
+        bool enabled = false;
+        if (PlayerPrefs.HasKey(CONST.BLOOM_IMAGE_EFFECT_KEY))
+        {
+            enabled = PlayerPrefs.GetInt(CONST.BLOOM_IMAGE_EFFECT_KEY) == 1;
+        }
+        Camera.main.GetComponent<BloomOptimized>().enabled = enabled;
+    }
 	// Use this for initialization
 	void Start () {
         camera_target_transform = first_camera_transform;
         level_selector.SetActive(false);
+        contact_info_panel.SetActive(false);
         int first_level = DATA.GetFirstUnfinishedLevel();
         if (first_level < 0)
         {
